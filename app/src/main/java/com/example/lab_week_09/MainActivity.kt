@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -22,6 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lab_week_09.ui.theme.LAB_WEEK_09Theme
+import com.example.lab_week_09.ui.theme.OnBackgroundItemText
+import com.example.lab_week_09.ui.theme.OnBackgroundTitleText
+import com.example.lab_week_09.ui.theme.PrimaryTextButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,31 +52,22 @@ fun Home() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            Text(text = stringResource(id = R.string.enter_item))
+            OnBackgroundTitleText(text = stringResource(id = R.string.enter_item))
             TextField(
                 value = inputText.value,
                 onValueChange = { inputText.value = it },
                 modifier = Modifier.padding(top = 8.dp)
             )
-            Button(
-                onClick = {
-                    if (inputText.value.isNotBlank()) {
-                        listData.add(inputText.value)
-                        inputText.value = ""
-                    }
-                },
-                modifier = Modifier.padding(top = 8.dp)
-            ) {
-                Text(text = stringResource(id = R.string.button_click))
+            PrimaryTextButton(text = stringResource(id = R.string.button_click)) {
+                if (inputText.value.isNotBlank()) {
+                    listData.add(inputText.value)
+                    inputText.value = ""
+                }
             }
         }
 
         items(listData) { item ->
-            Text(
-                text = item,
-                modifier = Modifier.padding(top = 8.dp),
-                style = MaterialTheme.typography.bodyLarge
-            )
+            OnBackgroundItemText(text = item)
         }
     }
 }
