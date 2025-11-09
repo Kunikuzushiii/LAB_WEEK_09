@@ -13,8 +13,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -40,9 +41,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Home() {
-    val listData = remember {
-        mutableStateListOf("Tanu", "Tina", "Tono")
-    }
+    val listData = remember { mutableStateListOf("Tanu", "Tina", "Tono") }
+    val inputText = remember { mutableStateOf("") }
 
     LazyColumn(
         modifier = Modifier
@@ -51,17 +51,19 @@ fun Home() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            Text(
-                text = stringResource(id = R.string.enter_item),
-                style = MaterialTheme.typography.titleMedium
-            )
+            Text(text = stringResource(id = R.string.enter_item))
             TextField(
-                value = "",
-                onValueChange = {},
+                value = inputText.value,
+                onValueChange = { inputText.value = it },
                 modifier = Modifier.padding(top = 8.dp)
             )
             Button(
-                onClick = { },
+                onClick = {
+                    if (inputText.value.isNotBlank()) {
+                        listData.add(inputText.value)
+                        inputText.value = ""
+                    }
+                },
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(text = stringResource(id = R.string.button_click))
